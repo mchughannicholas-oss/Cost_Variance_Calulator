@@ -1,0 +1,53 @@
+======================================================================
+PROJECT REQUIREMENTS SPECIFICATION
+Project Name: Terminal Financial Variance Calculator
+Language: Python 3.8+ (Standard Library)
+======================================================================
+
+1. PROGRAM OVERVIEW
+-------------------
+The terminal application sequentially prompts users for Budgeted Cost 
+and Actual Cost across key accounting categories, computes numerical 
+variances, assigns Favorable/Unfavorable performance statuses, and 
+outputs a formatted summary report.
+
+
+2. FUNCTIONAL REQUIREMENTS
+--------------------------
+[FR-01] Category Management
+        - Maintain a list of target expense categories:
+          "Material Cost", "Labor Cost", "Overhead Cost".
+
+[FR-02] Interactive Terminal Input
+        - Sequentially prompt the user for two float inputs per category:
+          1. Actual Cost ($)
+          2. Budgeted Cost ($)
+
+[FR-03] Variance Calculation
+        - Compute raw variance using formula:
+          Variance = Actual Cost - Budgeted Cost
+
+[FR-04] Conditional Status Evaluation
+        - Evaluate variance using the following conditional rule:
+          IF Variance <= 0 THEN Status = "FAVORABLE"
+          IF Variance > 0  THEN Status = "UNFAVORABLE"
+
+[FR-05] Storage & Data Structure
+        - Store each category entry as a dictionary containing:
+          Category, Actual Cost, Budgeted Cost, Variance, Status.
+        - Append dictionary records into a main data list.
+
+[FR-06] Reporting Output
+        - Output a clean terminal summary report displaying each 
+          category's Actual Cost, Budgeted Cost, Variance, and Status.
+
+
+3. TECHNICAL CONSTRAINTS
+------------------------
+[TR-01] Dependencies
+        - Use Python Standard Library only (no external packages like 
+          pandas, numpy, or requests).
+
+[TR-02] Formatting
+        - Format currency values with commas and two decimal places.
+        - Use absolute values for variance display in output text.
