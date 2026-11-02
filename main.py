@@ -1,40 +1,44 @@
+import core_analytics
+import streamlit as st
+
+#Title and description for the Streamlit app
+st.title("📊 Financial Cost Variance Calculator")
+st.markdown("Compare your budgeted expenses against actual costs.")
+
+# Create input fields for each category so the user can type actual and budgeted costs
+actual_costs = []
+budgeted_costs = []
+
+st.subheader("Enter Actual and Budgeted Costs for Each Category")
+
 # List containing clean display names for each category
 expense_categories = ["Material Cost", "Labor Cost", "Overhead Cost"]
 
-# Variance data for each category
-variance_data = []
-
-print("Enter the Actual and Budgeted costs for each category:\n")
-
-# Loop to collect costs for each category
+# Loop through your categories from core.py to create inputs dynamically
 for category in expense_categories:
-    actual_cost = float(input(f"Enter Actual cost for {category}: "))
-    budgeted_cost = float(input(f"Enter Budgeted cost for {category}: "))
+    st.markdown(f"**{category}**")
+    col1, col2 = st.columns(2)
+    with col1:
+        act = st.number_input(f"Actual {category}", min_value=0.0, value=0.0, key=f"act_{category}")
+    with col2:
+        bud = st.number_input(f"Budgeted {category}", min_value=0.0, value=0.0, key=f"bud_{category}")
     
-    # Calculate variance (Actual - Budget)
-    variance = actual_cost - budgeted_cost
-    
-    # Mark as FAVORABLE if Actual <= Budget (variance <= 0)
-    status = "FAVORABLE" if variance <= 0 else "UNFAVORABLE"
-    
-    # Append the completed data dictionary
-    variance_data.append({
-        "Category": category,
-        "Actual Cost": actual_cost,
-        "Budgeted Cost": budgeted_cost,
-        "Variance": variance,
-        "Status": status
-    })
+    actual_costs.append(act)
+    budgeted_costs.append(bud)
 
-# Print the variance report
-print("\n" + "=" * 35)
-print("         VARIANCE REPORT         ")
-print("=" * 35)
+# When the user clicks the "Calculate Variance" button, perform the calculations
+if st.button("Calculate Variance"):
+    results = core_analytics.process_all_categories(expense_categories, actual_costs, budgeted_costs)
 
-for data in variance_data:
-    print(f"Category:      {data['Category']}")
-    print(f"Actual Cost:   ${data['Actual Cost']:,.2f}")
-    print(f"Budgeted Cost: ${data['Budgeted Cost']:,.2f}")
-    print(f"Variance:      ${abs(data['Variance']):,.2f}")
-    print(f"Status:        {data['Status']}")
-    print("-" * 35)
+# When the user clicks the "Calculate Variance" button, perform the calculations
+if st.button("Calculate Variance"):
+    results = core_analytics.process_all_categories(expense_categories, actual_costs, budgeted_costs)
+
+    st.success("Variance calculation completed successfully!")
+
+    # Display the variance report in the Streamlit app
+    st.subheader("Variance Report")
+    
+    # The full ledger table
+    st.dataframe(results, use_container_width=True)   
+    
