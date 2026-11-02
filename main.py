@@ -27,10 +27,6 @@ for category in expense_categories:
     budgeted_costs.append(bud)
 
 # When the user clicks the "Calculate Variance" button, perform the calculations
-if st.button("Calculate Variance"):
-    results = core_analytics.process_all_categories(expense_categories, actual_costs, budgeted_costs)
-
-# When the user clicks the "Calculate Variance" button, perform the calculations
 if st.button("Calculate Variance", key="calc_variance_btn"):
     results = core_analytics.process_all_categories(expense_categories, actual_costs, budgeted_costs)
 
